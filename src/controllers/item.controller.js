@@ -1,4 +1,5 @@
 import Item from "../models/item.model.js"
+import APIFeatures from "../utils/apifeatures.js";
 
 export const createItems = async (req, res) => {
     const { name, description, category, price } = req.body
@@ -16,11 +17,13 @@ export const createItems = async (req, res) => {
 
 
 export const getItems = async (req,res) => {
-    const items = await Item.find()
+    const features = new APIFeatures(Item.find(), req.query).filter().textSearch().sort().paginate()
+
+    const items = await features.query //executes Mongodb query
 
     res.status(200).json({
         status: "success",
         total_items: items.length,
-        data: { items }
+        data: items 
     })
 }

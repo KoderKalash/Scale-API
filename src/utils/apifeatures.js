@@ -16,7 +16,7 @@ class APIFeatures {
 
     textSearch() { //less flexible
         if (this.queryString.search) {
-            this.query.find({
+            this.query = this.query.find({
                 $text: { $search: this.queryString.search }
             })
         }
